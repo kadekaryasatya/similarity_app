@@ -1,0 +1,60 @@
+{% extends "base.html" %} {% block content %}
+<div id="content-similarity">
+  <div id="content-similarity-subheading">Keterkaitan Dokumen</div>
+
+  {% if error %}
+  <div class="alert alert-danger">{{ error }}</div>
+  {% else %}
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" name="calculate_similarity" class="btn btn-primary">
+      Hitung Keterkaitan
+    </button>
+  </form>
+
+  {% if similarity_results %}
+  <div id="content-similarity-list">
+    <h2>Hasil Keterkaitan Dokumen</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Dokumen 1</th>
+          <th>Dokumen 2</th>
+          <th>Nilai Keterkaitan (%)</th>
+          <th>Detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in similarity_results %}
+        <tr>
+          <td>{{ result.dokumen1 }}</td>
+          <td>{{ result.dokumen2 }}</td>
+          <td>{{ result.keterkaitan }}</td>
+          <td>
+            <a href="{{ result.detail_url }}" class="btn btn-link"
+              >Lihat Detail</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %} {% if clusters %}
+  <div id="content-similarity-list">
+    <h3>Hasil Clustering</h3>
+    <div>{{ clusters|safe }}</div>
+    <p>Silhouette Coefficient: {{ silhouette_avg }}</p>
+  </div>
+
+  {% endif %} {% endif %} {% if clustering_ready %}
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" name="perform_clustering" class="btn btn-success">
+      Lakukan Clustering
+    </button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

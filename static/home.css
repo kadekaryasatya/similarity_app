@@ -1,0 +1,76 @@
+#content-saved {
+  padding: 40px;
+}
+
+#content-saved-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fee6a5;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+#content-saved-subheading {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: underline;
+  color: white;
+  margin-bottom: 20px;
+}
+
+#content-saved-list {
+  background-color: white;
+  padding: 30px 20px;
+  overflow-y: auto;
+  height: 400px;
+}
+
+.content-saved-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.content-saved-title {
+  font-weight: bold;
+  display: flex;
+  gap: 5px;
+  width: 80%;
+}
+
+.content-saved-actions {
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  gap: 10px;
+  width: 20%;
+}
+
+.content-saved-show {
+  background-color: #217b95;
+  color: white;
+  padding: 5px 10px;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  border: none;
+  font-size: 1rem;
+}
+
+.content-saved-delete {
+  background-color: #d84040;
+  color: white;
+  padding: 5px 10px;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  border: none;
+  font-size: 1rem;
+}
+
+.content-saved-show:hover,
+.content-saved-delete:hover {
+  opacity: 0.8;
+}

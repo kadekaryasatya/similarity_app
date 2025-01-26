@@ -1,0 +1,36 @@
+#content-similarity {
+  padding: 40px;
+}
+
+#content-similarity-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fee6a5;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+#content-similarity-subheading {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: underline;
+  color: white;
+  margin-bottom: 20px;
+}
+
+#content-similarity-list {
+  background-color: white;
+  padding: 10px 20px;
+  overflow-y: auto;
+  max-height: 350px;
+}
+
+table {
+  width: 100%;
+}
+
+td {
+  width: 50%;
+  padding: 8px;
+  text-align: left;
+}
