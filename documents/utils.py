@@ -1,19 +1,11 @@
 import re
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 import nltk
-from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-import fitz  
-from nltk.tag import pos_tag
-from nltk.chunk import ne_chunk
-from nltk.stem import WordNetLemmatizer
-from nltk.corpus import wordnet
-from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
-import pdfkit
 from sentence_transformers import SentenceTransformer
+import numpy as np
 
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
@@ -144,10 +136,10 @@ def extract_details(text):
         "Topik Peraturan": topik_peraturan_text,
         "Struktur Peraturan": struktur_peraturan_mix
     }
-  
-  
+ 
 def calculate_similarity(documents):
-    # Menggabungkan konten dari setiap dokumen
+    model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
+
     combined_contents = [
         {
             'title': doc.title,
@@ -163,10 +155,6 @@ def calculate_similarity(documents):
         for doc in documents
     ]
 
-    # Load pre-trained word embedding model
-    model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
-
-    # Encode setiap field menjadi vektor
     field_vectors = {
         field: model.encode([doc[field] for doc in combined_contents])
         for field in combined_contents[0]
@@ -174,41 +162,39 @@ def calculate_similarity(documents):
 
     titles = [doc.title for doc in documents]
     similarity_results = []
+    num_documents = len(titles)
 
-    for i in range(len(titles)):
-        for j in range(i + 1, len(titles)):
-            detail_similarity = {}
+    similarity_matrix = np.zeros((num_documents, num_documents))
+
+    for i in range(num_documents):
+        for j in range(i + 1, num_documents):
             total_similarity = 0
+            detail_similarity = {}
 
-            # Hitung similarity per field
             for field, vectors in field_vectors.items():
                 score = cosine_similarity([vectors[i]], [vectors[j]])[0][0] * 100
                 detail_similarity[field] = score
                 total_similarity += score
 
-            # Rata-rata similarity dari semua field
             average_similarity = total_similarity / len(field_vectors)
+            similarity_matrix[i, j] = average_similarity
+            similarity_matrix[j, i] = average_similarity  # Matriks simetri
 
             similarity_results.append({
                 'dokumen1': titles[i],
                 'dokumen2': titles[j],
                 'keterkaitan': f"{average_similarity:.2f}%",
                 'detail_similarity': detail_similarity,
-                'detail_url': f"/similarity_detail/{i}/{j}/"  # URL untuk melihat detail
+                'detail_url': f"/similarity_detail/{i}/{j}/"
             })
 
-    return similarity_results
-
+    return similarity_results, similarity_matrix
 
 def perform_clustering(similarity_matrix, num_clusters=2):
-    # Menggunakan K-Means untuk clustering
     kmeans = KMeans(n_clusters=num_clusters, random_state=0)
     labels = kmeans.fit_predict(similarity_matrix)
     
-    # Menghitung silhouette score untuk evaluasi clustering
     silhouette_avg = silhouette_score(similarity_matrix, labels)
     
     return silhouette_avg, labels
 
-
-from django.shortcuts import render

@@ -20,6 +20,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from documents import views
+
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -30,8 +31,9 @@ urlpatterns = [
     path('add/', views.add_document, name='add_document'),
     path('delete/<int:doc_id>/', views.delete_document_view, name='delete_document'),  # Update nama view  
     path('similarity/', views.similarity, name='similarity'),
+    path('clustering/', views.clustering, name='clustering'),
     path('similarity_detail/<int:i>/<int:j>/', views.similarity_detail, name='similarity_detail'),
-    # path('similarity_detail/<int:doc1_index>/<int:doc2_index>/', views.similarity_detail, name='similarity_detail'),
+    path('similarity-graph/', views.similarity_graph, name='similarity_graph'),
 
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

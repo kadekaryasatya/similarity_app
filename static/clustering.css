@@ -1,11 +1,11 @@
-#content-similarity {
+#content-clustering {
   padding: 40px;
   height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-#content-similarity-heading {
+#content-clustering-heading {
   font-size: 2rem;
   font-weight: bold;
   color: #fee6a5;
@@ -13,7 +13,7 @@
   text-transform: uppercase;
 }
 
-#content-similarity-subheading {
+#content-clustering-subheading {
   font-size: 1.5rem;
   font-weight: bold;
   text-decoration: underline;
@@ -21,17 +21,15 @@
   margin-bottom: 20px;
 }
 
-#network-graph .vis-network {
-  width: 100%;
-  height: 100%;
+#content-clustering-list {
+  background-color: white;
+  padding: 10px 20px;
+  overflow-y: auto;
+  max-height: 60vh;
+  border-radius: 8px;
 }
 
-#network-graph .vis-network canvas {
-  width: 100%;
-  height: 100%;
-}
-
-.button_clustering {
+.button_similarity {
   margin-top: 20px;
   padding: 10px 20px;
   text-decoration: none;
@@ -46,6 +44,21 @@
   color: #000;
 }
 
-.button_clustering:hover {
+.button_similarity:hover {
   opacity: 0.8;
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  text-align: left;
+  padding: 8px;
+}
+
+td {
+  width: 50%;
+  padding: 8px;
+  text-align: left;
 }
